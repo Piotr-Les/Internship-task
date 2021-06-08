@@ -13,7 +13,7 @@ export interface ISeat {
 	cords: ICords;
 	reserved: boolean;
 }
-interface IInitialState {
+interface IState {
 	loading: boolean;
 	seats: ISeat[];
 	error: string;
@@ -32,7 +32,7 @@ type FetchErrorAction = {
 
 type Action = FetchRequestAction | FetchSuccessAction | FetchErrorAction;
 
-const initialState: IInitialState = {
+const initialState: IState = {
 	loading: false,
 	seats: [],
 	error: '',
