@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, MouseEvent, MouseEventHandler, useEffect, useState } from 'react';
 import {
 	MainContainer,
 	Group,
@@ -161,6 +161,18 @@ const Seats: FC<ISeatProps> = ({ seatsItems }) => {
 			return findSeatsByColumns(numberOfSeats);
 		}
 	};
+	const handleSeatItemClick = (event: MouseEvent) => {
+		const target = event.target as HTMLDivElement;
+		if (seatsToHint.some(seat => seat.id === target.id)) {
+			setSeatsToHint(seatsToHint.filter(seat => seat.id != target.id));
+		} else {
+			const selectedSeat = freeSeats.find(seat => seat.id === target.id);
+			if (selectedSeat) {
+				setSeatsToHint([...seatsToHint, selectedSeat]);
+			}
+		}
+	};
+
 	const [seatsToHint, setSeatsToHint] = useState<ISeat[]>([]);
 	useEffect(() => {
 		setSeatsToHint(handleSeatHint(freeSeats, numberOfSeats, nextToEachOther));
@@ -171,9 +183,11 @@ const Seats: FC<ISeatProps> = ({ seatsItems }) => {
 				<FirstGroup>
 					{firstSubGroup.map(seat => (
 						<SeatItem
+							onClick={(event: MouseEvent) => handleSeatItemClick(event)}
 							hinted={
 								seatsToHint.find(seatToHint => seatToHint.id === seat.id) ? true : false
 							}
+							id={seat.id}
 							key={seat.id}
 							reserved={seat.reserved}
 							x={seat.cords.x}
