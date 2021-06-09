@@ -33,19 +33,23 @@ const Home: FC = () => {
 	const dispatch = useDispatch();
 
 	const nOfSeats = useSelector<IGlobalState, number>(state => state.form.numberOfSeats);
-
 	const [numberOfSeats, setNumberOfSeats] = useState<number>(nOfSeats);
+
 	const nToEachOther = useSelector<IGlobalState, boolean>(
 		state => state.form.nextToEachOther
 	);
-
 	const [nextToEachOther, setNextToEachOther] = useState<boolean>(nToEachOther);
 
 	return (
 		<MainContainer>
 			<Form>
 				<Form.Item colon={false} label="Liczba miejsc">
-					<InputNumber value={numberOfSeats} min={1} onChange={handleInputChange} />
+					<InputNumber
+						value={numberOfSeats}
+						min={1}
+						max={86}
+						onChange={handleInputChange}
+					/>
 				</Form.Item>
 
 				<Form.Item
