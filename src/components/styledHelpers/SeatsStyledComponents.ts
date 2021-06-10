@@ -61,7 +61,7 @@ export const SeatItem = styled.div<IItem>`
 	width: 55px;
 	height: 45px;
 	border: 1px solid #000;
-	transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+	transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 	&:hover {
 		border-color: ${p => (p.reserved ? '#000' : '#1890ff')};
 	}

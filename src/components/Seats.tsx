@@ -164,7 +164,7 @@ const Seats: FC<ISeatProps> = ({ seatsItems }) => {
 	const handleSeatItemClick = (event: MouseEvent) => {
 		const target = event.target as HTMLDivElement;
 		if (seatsToHint.some(seat => seat.id === target.id)) {
-			setSeatsToHint(seatsToHint.filter(seat => seat.id != target.id));
+			setSeatsToHint(seatsToHint.filter(seat => seat.id !== target.id));
 		} else {
 			const selectedSeat = freeSeats.find(seat => seat.id === target.id);
 			if (selectedSeat) {
@@ -173,7 +173,7 @@ const Seats: FC<ISeatProps> = ({ seatsItems }) => {
 		}
 	};
 
-	const [seatsToHint, setSeatsToHint] = useState<ISeat[]>([]);
+	const [seatsToHint, setSeatsToHint] = useState<ISeat[]>([freeSeats[0]]);
 	useEffect(() => {
 		setSeatsToHint(handleSeatHint(freeSeats, numberOfSeats, nextToEachOther));
 	}, []);
@@ -185,7 +185,7 @@ const Seats: FC<ISeatProps> = ({ seatsItems }) => {
 						<SeatItem
 							onClick={(event: MouseEvent) => handleSeatItemClick(event)}
 							hinted={
-								seatsToHint.find(seatToHint => seatToHint.id === seat.id) ? true : false
+								seatsToHint.find(seatToHint => seatToHint?.id === seat?.id) ? true : false
 							}
 							id={seat.id}
 							key={seat.id}
@@ -199,10 +199,12 @@ const Seats: FC<ISeatProps> = ({ seatsItems }) => {
 				<Group>
 					{secondSubGroupFirstRow.map(seat => (
 						<SeatItem
+							onClick={(event: MouseEvent) => handleSeatItemClick(event)}
 							hinted={
-								seatsToHint.find(seatToHint => seatToHint.id === seat.id) ? true : false
+								seatsToHint.find(seatToHint => seatToHint?.id === seat?.id) ? true : false
 							}
 							key={seat.id}
+							id={seat.id}
 							reserved={seat.reserved}
 							x={seat.cords.x}
 							y={seat.cords.y - secondColumnYOffset}>
@@ -213,10 +215,12 @@ const Seats: FC<ISeatProps> = ({ seatsItems }) => {
 				<Group>
 					{thirdSubGroupFirstRow.map(seat => (
 						<SeatItem
+							onClick={(event: MouseEvent) => handleSeatItemClick(event)}
 							hinted={
-								seatsToHint.find(seatToHint => seatToHint.id === seat.id) ? true : false
+								seatsToHint.find(seatToHint => seatToHint?.id === seat?.id) ? true : false
 							}
 							key={seat.id}
+							id={seat.id}
 							reserved={seat.reserved}
 							x={seat.cords.x}
 							y={seat.cords.y - thirdColumnYOffset}>
@@ -227,10 +231,12 @@ const Seats: FC<ISeatProps> = ({ seatsItems }) => {
 				<SecondRowGroup>
 					{secondSubGroupSecondRow.map(seat => (
 						<SeatItem
+							onClick={(event: MouseEvent) => handleSeatItemClick(event)}
 							hinted={
-								seatsToHint.find(seatToHint => seatToHint.id === seat.id) ? true : false
+								seatsToHint.find(seatToHint => seatToHint?.id === seat?.id) ? true : false
 							}
 							key={seat.id}
+							id={seat.id}
 							reserved={seat.reserved}
 							x={seat.cords.x - secondColumnXOffset}
 							y={seat.cords.y - secondColumnYOffset}>
@@ -241,10 +247,12 @@ const Seats: FC<ISeatProps> = ({ seatsItems }) => {
 				<SecondRowGroup>
 					{thirdSubGroupSecondRow.map(seat => (
 						<SeatItem
+							onClick={(event: MouseEvent) => handleSeatItemClick(event)}
 							hinted={
-								seatsToHint.find(seatToHint => seatToHint.id === seat.id) ? true : false
+								seatsToHint.find(seatToHint => seatToHint?.id === seat?.id) ? true : false
 							}
 							key={seat.id}
+							id={seat.id}
 							reserved={seat.reserved}
 							x={seat.cords.x - thirdColumnXOffset}
 							y={seat.cords.y - thirdColumnYOffset}>
