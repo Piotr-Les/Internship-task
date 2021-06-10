@@ -14,6 +14,9 @@ export interface IGlobalState {
 		seats: ISeat[];
 		error: string;
 	};
+	reservation: {
+		reservedSeats: ISeat[];
+	};
 }
 
 const middleware = [thunk];

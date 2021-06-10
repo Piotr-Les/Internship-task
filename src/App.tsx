@@ -8,6 +8,7 @@ import 'antd/dist/antd.css';
 import { useEffect } from 'react';
 import { fetchSeats } from './redux/actions/seatsActions';
 import { ISeat } from './redux/reducers/seatsReducer';
+import { ReservationDetails } from './components/ReservationDetails';
 
 const GlobalStyle = createGlobalStyle`
 	*{
@@ -38,6 +39,9 @@ function App() {
 					</Route>
 					<Route exact path="/seats">
 						<Seats seatsItems={seatsItems} />
+					</Route>
+					<Route exact path="/reservation">
+						<ReservationDetails />
 					</Route>
 				</Switch>
 			</Router>

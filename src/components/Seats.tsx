@@ -1,4 +1,5 @@
-import { FC, MouseEvent, MouseEventHandler, useEffect, useState } from 'react';
+import { FC, MouseEvent, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
 	MainContainer,
 	Group,
@@ -11,8 +12,9 @@ import {
 } from './styledHelpers/SeatsStyledComponents';
 import { ISeat } from '../redux/reducers/seatsReducer';
 import { Button } from 'antd';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { IGlobalState } from '../redux/store';
+import { reserveSeats } from '../redux/actions/reservationActions';
 
 interface ISeatProps {
 	seatsItems: ISeat[];
@@ -173,7 +175,16 @@ const Seats: FC<ISeatProps> = ({ seatsItems }) => {
 		}
 	};
 
-	const [seatsToHint, setSeatsToHint] = useState<ISeat[]>([freeSeats[0]]);
+	const [seatsToHint, setSeatsToHint] = useState<ISeat[]>([]);
+	const dispatch = useDispatch();
+	const history = useHistory();
+	const handleReservation = () => {
+		if (seatsToHint.length < 1) {
+			return;
+		}
+		dispatch(reserveSeats(seatsToHint));
+		history.push('/reservation');
+	};
 	useEffect(() => {
 		setSeatsToHint(handleSeatHint(freeSeats, numberOfSeats, nextToEachOther));
 	}, []);
@@ -274,7 +285,9 @@ const Seats: FC<ISeatProps> = ({ seatsItems }) => {
 					backgroundColor="orange"
 					borderColor="orange"></LegendItem>
 				Twój wybór
-				<Button type="default">Rezerwuj</Button>
+				<Button onClick={handleReservation} type="default">
+					Rezerwuj
+				</Button>
 			</LegendConteiner>
 		</>
 	);
