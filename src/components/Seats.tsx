@@ -15,12 +15,14 @@ import { Button } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { IGlobalState } from '../redux/store';
 import { reserveSeats } from '../redux/actions/reservationActions';
+import { findSeatsByColumns, findUpToFiveSeatsInRow } from '../findSeats';
 
 interface ISeatProps {
 	seatsItems: ISeat[];
 }
 
 const Seats: FC<ISeatProps> = ({ seatsItems }) => {
+	// grupowanie siedzeń do osadzenia w gridach
 	const firstSubGroup = seatsItems.filter(seat => seat.cords.y < 5);
 
 	const secondSubGroupFirstRow = seatsItems.filter(
@@ -54,97 +56,6 @@ const Seats: FC<ISeatProps> = ({ seatsItems }) => {
 	);
 	const freeSeats = seatsItems.filter(seat => seat.reserved === false);
 
-	const findUpToFiveSeatsInRow = (freeSeats: ISeat[], numberOfSeatsToFind: number) => {
-		let chosenSeats = [];
-
-		for (let i = 0; i < freeSeats.length; i++) {
-			if (chosenSeats.length === 0) {
-				chosenSeats.push(freeSeats[i]);
-				if (chosenSeats.length === numberOfSeatsToFind) {
-					break;
-				}
-				continue;
-			}
-			if (
-				freeSeats[i].cords.y - chosenSeats[chosenSeats.length - 1].cords.y === 1 ||
-				freeSeats[i].cords.y - chosenSeats[chosenSeats.length - 1].cords.y === 0
-			) {
-				chosenSeats.push(freeSeats[i]);
-			} else {
-				chosenSeats = [];
-				i--;
-			}
-			if (chosenSeats.length === numberOfSeatsToFind) {
-				break;
-			}
-		}
-		return chosenSeats;
-	};
-
-	const findSeatsByColumns = (numberOfSeats: number) => {
-		//data setup
-		let chosenSeats: ISeat[] = [];
-		let data: ISeat[] = [];
-		const freeSeatsFromFirstColumn = firstSubGroup.filter(
-			seat => seat.reserved === false
-		);
-		const firstRange = freeSeatsFromFirstColumn.length;
-
-		const freeSeatsFromSecondColumnFirstRow = secondSubGroupFirstRow.filter(
-			seat => seat.reserved === false
-		);
-		const secondRange = freeSeatsFromSecondColumnFirstRow.length;
-
-		const freeSeatsFromSecondColumnSecondRow = secondSubGroupSecondRow.filter(
-			seat => seat.reserved === false
-		);
-		const thirdRange = freeSeatsFromSecondColumnSecondRow.length;
-
-		const freeSeatsFromThirdColumnFirstRow = thirdSubGroupFirstRow.filter(
-			seat => seat.reserved === false
-		);
-		const forthRange = freeSeatsFromThirdColumnFirstRow.length;
-
-		const freeSeatsFromThirdColumnSecondRow = thirdSubGroupSecondRow.filter(
-			seat => seat.reserved === false
-		);
-		const fifthRange = freeSeatsFromThirdColumnSecondRow.length;
-
-		if (numberOfSeats <= firstRange) {
-			data = [...freeSeatsFromFirstColumn];
-		} else if (numberOfSeats <= firstRange + secondRange) {
-			data = [...freeSeatsFromFirstColumn, ...freeSeatsFromSecondColumnFirstRow];
-		} else if (numberOfSeats <= firstRange + secondRange + thirdRange) {
-			data = [
-				...freeSeatsFromFirstColumn,
-				...freeSeatsFromSecondColumnFirstRow,
-				...freeSeatsFromSecondColumnSecondRow,
-			];
-		} else if (numberOfSeats <= firstRange + secondRange + thirdRange + forthRange) {
-			data = [
-				...freeSeatsFromFirstColumn,
-				...freeSeatsFromSecondColumnFirstRow,
-				...freeSeatsFromSecondColumnSecondRow,
-				...freeSeatsFromThirdColumnFirstRow,
-			];
-		} else if (
-			numberOfSeats <=
-			firstRange + secondRange + thirdRange + forthRange + fifthRange
-		) {
-			data = [
-				...freeSeatsFromFirstColumn,
-				...freeSeatsFromSecondColumnFirstRow,
-				...freeSeatsFromSecondColumnSecondRow,
-				...freeSeatsFromThirdColumnFirstRow,
-				...freeSeatsFromThirdColumnSecondRow,
-			];
-		}
-		for (let i = 0; i < numberOfSeats; i++) {
-			chosenSeats.push(data[i]);
-		}
-		return chosenSeats;
-	};
-
 	const handleSeatHint = (
 		freeSeats: ISeat[],
 		numberOfSeats: number,
@@ -160,7 +71,14 @@ const Seats: FC<ISeatProps> = ({ seatsItems }) => {
 		if (numberOfSeats <= 5) {
 			return findUpToFiveSeatsInRow(freeSeats, numberOfSeats);
 		} else {
-			return findSeatsByColumns(numberOfSeats);
+			return findSeatsByColumns(
+				numberOfSeats,
+				firstSubGroup,
+				secondSubGroupFirstRow,
+				secondSubGroupSecondRow,
+				thirdSubGroupFirstRow,
+				thirdSubGroupSecondRow
+			);
 		}
 	};
 	const handleSeatItemClick = (event: MouseEvent) => {
@@ -276,14 +194,15 @@ const Seats: FC<ISeatProps> = ({ seatsItems }) => {
 				<StyledLink to="/">
 					<Button type="default">Wróć do wyboru</Button>
 				</StyledLink>
-				<LegendItem></LegendItem>
+				<LegendItem>Y/X</LegendItem>
 				Miejsca dostępne
-				<LegendItem color="#fff" backgroundColor="#000"></LegendItem>
+				<LegendItem color="#fff" backgroundColor="#000">
+					Y/X
+				</LegendItem>
 				Miejsca zarezerwowane
-				<LegendItem
-					color="#fff"
-					backgroundColor="orange"
-					borderColor="orange"></LegendItem>
+				<LegendItem backgroundColor="orange" borderColor="#000">
+					Y/X
+				</LegendItem>
 				Twój wybór
 				<Button onClick={handleReservation} type="default">
 					Rezerwuj

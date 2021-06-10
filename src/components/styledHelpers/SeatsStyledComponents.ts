@@ -85,5 +85,5 @@ export const LegendItem = styled.div<ILegendItemProps>`
 	justify-content: center;
 	color: ${p => (p.color ? p.color : '#000')};
 	background-color: ${p => (p.backgroundColor ? p.backgroundColor : '#fff')};
-	border: 1px solid ${p => (p.backgroundColor ? p.backgroundColor : '#000')};
+	border: 1px solid ${p => (p.borderColor ? p.borderColor : '#000')};
 `;
