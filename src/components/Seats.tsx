@@ -108,7 +108,7 @@ const Seats: FC<ISeatProps> = ({ seatsItems }) => {
 	}, []);
 	return (
 		<>
-			<MainContainer>
+			<MainContainer data-testid="mainContainer">
 				<FirstGroup>
 					{firstSubGroup.map(seat => (
 						<SeatItem

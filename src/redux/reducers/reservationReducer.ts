@@ -1,10 +1,10 @@
 import { RESERVE_SEATS } from '../actions/reservationActionTypes';
 import { ISeat } from './seatsReducer';
 
-interface IInitialState {
+export interface IReservationState {
 	reservedSeats: ISeat[];
 }
-const initialState: IInitialState = {
+const initialState: IReservationState = {
 	reservedSeats: [],
 };
 
@@ -13,7 +13,10 @@ type ReserveAction = {
 	payload: ISeat[];
 };
 
-export const reservationReducer = (state = initialState, action: ReserveAction) => {
+export const reservationReducer = (
+	state = initialState,
+	action: ReserveAction
+): IReservationState => {
 	switch (action.type) {
 		case RESERVE_SEATS:
 			return {

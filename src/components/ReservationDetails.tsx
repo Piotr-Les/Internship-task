@@ -25,7 +25,7 @@ const ReservationDetails: FC = () => {
 		setReservedSeats(seats);
 	}, []);
 	return (
-		<MainContainer>
+		<MainContainer data-testid="reservation">
 			{reservedSeats.length > 0 ? (
 				<>
 					<Title level={2}>Twoja rezerwacja przebiegła pomyślnie!</Title>

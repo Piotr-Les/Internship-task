@@ -13,7 +13,7 @@ export interface ISeat {
 	cords: ICords;
 	reserved: boolean;
 }
-interface IState {
+export interface ISeatApiDataState {
 	loading: boolean;
 	seats: ISeat[];
 	error: string;
@@ -32,13 +32,13 @@ type FetchErrorAction = {
 
 type Action = FetchRequestAction | FetchSuccessAction | FetchErrorAction;
 
-const initialState: IState = {
+const initialState: ISeatApiDataState = {
 	loading: false,
 	seats: [],
 	error: '',
 };
 
-export const seatsReducer = (state = initialState, action: Action) => {
+export const seatsReducer = (state = initialState, action: Action): ISeatApiDataState => {
 	switch (action.type) {
 		case FETCH_SEATS_REQUEST:
 			return {

@@ -13,7 +13,7 @@ type SubmitAction = {
 	payload: IFormState;
 };
 
-export const formReducer = (state = initialState, action: SubmitAction) => {
+export const formReducer = (state = initialState, action: SubmitAction): IFormState => {
 	switch (action.type) {
 		case FORM_SUBMIT:
 			return {

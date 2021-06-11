@@ -18,11 +18,16 @@ const MainContainer = styled.div`
 const Home: FC = () => {
 	let history = useHistory();
 	const handleInputChange = (value: number) => {
-		setNumberOfSeats(value);
+		if (value < 1) {
+			setNumberOfSeats(1);
+		} else {
+			setNumberOfSeats(value);
+		}
 	};
 	const handleCheckboxChange = (e: CheckboxChangeEvent) => {
 		setNextToEachOther(e.target.checked);
 	};
+
 	const submit = () => {
 		dispatch(
 			submitForm({ nextToEachOther: nextToEachOther, numberOfSeats: numberOfSeats })
@@ -42,9 +47,10 @@ const Home: FC = () => {
 
 	return (
 		<MainContainer>
-			<Form>
+			<Form data-testid="form">
 				<Form.Item colon={false} label="Liczba miejsc">
 					<InputNumber
+						data-testid="inputNumber"
 						value={numberOfSeats}
 						min={1}
 						max={86}
@@ -59,7 +65,12 @@ const Home: FC = () => {
 					<Checkbox checked={nextToEachOther} onChange={handleCheckboxChange} />
 				</Form.Item>
 
-				<Button onClick={submit} block type="default" size="large">
+				<Button
+					data-testid="submitBtn"
+					onClick={submit}
+					block
+					type="default"
+					size="large">
 					Wybierz miejsca
 				</Button>
 			</Form>
