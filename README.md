@@ -27,5 +27,5 @@ You will also see any lint errors in the console.
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.\
-I only added a few basic test to check if component render and reducers work as intended.
+I only added a few basic tests to check if components render and reducers work as intended.
 
