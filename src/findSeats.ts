@@ -59,7 +59,6 @@ export const findSeatsByColumns = (
 	const freeSeatsFromThirdColumnSecondRow = thirdSubGroupSecondRow.filter(
 		seat => seat.reserved === false
 	);
-	const fifthRange = freeSeatsFromThirdColumnSecondRow.length;
 
 	if (numberOfSeats <= firstRange) {
 		data = [...freeSeatsFromFirstColumn];
@@ -78,10 +77,7 @@ export const findSeatsByColumns = (
 			...freeSeatsFromSecondColumnSecondRow,
 			...freeSeatsFromThirdColumnFirstRow,
 		];
-	} else if (
-		numberOfSeats <=
-		firstRange + secondRange + thirdRange + forthRange + fifthRange
-	) {
+	} else {
 		data = [
 			...freeSeatsFromFirstColumn,
 			...freeSeatsFromSecondColumnFirstRow,
