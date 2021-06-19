@@ -14,10 +14,7 @@ export const findUpToFiveSeatsInRow = (
 			}
 			continue;
 		}
-		if (
-			freeSeats[i].cords.y - chosenSeats[chosenSeats.length - 1].cords.y === 1 ||
-			freeSeats[i].cords.y - chosenSeats[chosenSeats.length - 1].cords.y === 0
-		) {
+		if (freeSeats[i].cords.y - chosenSeats[chosenSeats.length - 1].cords.y === 1) {
 			chosenSeats.push(freeSeats[i]);
 		} else {
 			chosenSeats = [];
